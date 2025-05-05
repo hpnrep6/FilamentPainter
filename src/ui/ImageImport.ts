@@ -1,5 +1,5 @@
-import {config} from "../config/Config.js";
-import {updateImage} from "./UpdateImage.js";
+import { config } from "../config/Config.js";
+import { updateImage } from "./UpdateImage.js";
 
 // export function setupImageImport() {
 //     const imageUpload = document.getElementById('image-upload') as HTMLInputElement;
