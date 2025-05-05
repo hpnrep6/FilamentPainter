@@ -1,10 +1,10 @@
 import { vec3 } from "./Types.js";
 export class Filament {
-    constructor(colour, endHeight, name, opacity, colorFormat = 'normalised') {
+    constructor(colour, endHeight, name, opacity, colorFormat = "normalised") {
         this.colour = vec3(0, 0, 0);
         this.endHeight = 0;
         this.opacity = 0;
-        this.name = '';
+        this.name = "";
         this.endHeight = endHeight;
         this.name = name;
         this.opacity = opacity;
@@ -12,15 +12,15 @@ export class Filament {
             let r = colour[0];
             let g = colour[1];
             let b = colour[2];
-            const format = colorFormat || 'normalised';
-            if (format === 'byte') {
+            const format = colorFormat || "normalised";
+            if (format === "byte") {
                 this.colour = vec3(r / 255, g / 255, b / 255);
             }
             else {
                 this.colour = vec3(r, g, b);
             }
         }
-        else if (typeof colour === 'string') {
+        else if (typeof colour === "string") {
             this.colour = this.hexToRgbNormalized(colour);
         }
         else {

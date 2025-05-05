@@ -1,4 +1,4 @@
-import { interpValues } from './AutoOpacityData.js';
+import { interpValues } from "./AutoOpacityData.js";
 const lerp = (a, b, t) => {
     return a + t * (b - a);
 };
