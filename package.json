@@ -10,5 +10,13 @@
   "devDependencies": {
     "typescript": "^5.5.3"
   },
-  "private": true
+  "private": true,
+  "prettier": {
+    "singleQuote": false,
+    "semi": true,
+    "trailingComma": "all",
+    "tabWidth": 2,
+    "useTabs": true,
+    "printWidth": 120
+  }
 }
