@@ -115,8 +115,8 @@ export function generateSTLAndDownload(heightmap, filename = "filament-painting.
             offset = addTriangle([j, numRows - 1, heightmap[numRows - 1][j]], [j + 1, numRows - 1, 0], [j, numRows - 1, 0], [0, 0, 0], dataView, offset);
         }
     }
-    const blob = new Blob([buffer], { type: 'application/octet-stream' });
-    const link = document.createElement('a');
+    const blob = new Blob([buffer], { type: "application/octet-stream" });
+    const link = document.createElement("a");
     link.href = URL.createObjectURL(blob);
     link.download = filename;
     document.body.appendChild(link);

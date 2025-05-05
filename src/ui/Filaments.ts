@@ -76,7 +76,7 @@ export function setupDragAndDrop(callback: (list: HTMLUListElement) => void): vo
 	};
 
 	// Initial drag handle setup
-	draggableList.querySelectorAll(`.${dragHandleClassName}`).forEach(attachDragHandlers);
+	draggableList.querySelectorAll<HTMLElement>(`.${dragHandleClassName}`).forEach(attachDragHandlers);
 
 	draggableList.addEventListener("dragend", (e: DragEvent) => {
 		if (draggedItem) {
@@ -107,7 +107,7 @@ export function setupDragAndDrop(callback: (list: HTMLUListElement) => void): vo
 			}
 		});
 		// Update the dropdown option
-		const option = existingFilamentSelection.querySelector(`option[data-id="${filamentId}"]`);
+		const option = existingFilamentSelection.querySelector<HTMLInputElement>(`option[data-id="${filamentId}"]`);
 		if (option) {
 			option.textContent = newName;
 			option.value = newName;
@@ -167,7 +167,7 @@ export function setupDragAndDrop(callback: (list: HTMLUListElement) => void): vo
 
 	const handleLayerHeightChange = (event: Event) => {
 		const target = event.target as HTMLInputElement;
-		const layerItem = target.closest(`.${itemClassName}`);
+		const layerItem = target.closest<HTMLElement>(`.${itemClassName}`);
 		const globalLayerHeight = parseFloat(globalLayerHeightInput.value);
 
 		if (layerItem && !isNaN(globalLayerHeight)) {
@@ -194,7 +194,7 @@ export function setupDragAndDrop(callback: (list: HTMLUListElement) => void): vo
 
 	filamentList.addEventListener("change", (event) => {
 		const target = event.target as HTMLInputElement;
-		const listItem = target.closest(".filament-list-item");
+		const listItem = target.closest<HTMLElement>(".filament-list-item");
 		if (listItem) {
 			const filamentId = listItem.dataset.id;
 			const nameSpan = listItem.querySelector("span");
@@ -241,16 +241,16 @@ export function setupDragAndDrop(callback: (list: HTMLUListElement) => void): vo
 	{
 		const newNameInput = document
 			.querySelector<HTMLInputElement>("#add-item-button-new")
-			.parentElement?.querySelector<HTMLInputElement>('input[type="text"]');
+			?.parentElement?.querySelector<HTMLInputElement>('input[type="text"]');
 		const newColorInput = document
 			.querySelector<HTMLInputElement>("#add-item-button-new")
-			.parentElement?.querySelector<HTMLInputElement>('input[type="color"]');
+			?.parentElement?.querySelector<HTMLInputElement>('input[type="color"]');
 		const newHexInput = document
 			.querySelector<HTMLInputElement>("#add-item-button-new")
-			.parentElement?.querySelector<HTMLInputElement>('input[type="text"][placeholder="Hex Code"]');
+			?.parentElement?.querySelector<HTMLInputElement>('input[type="text"][placeholder="Hex Code"]');
 		const newOpacityInput = document
 			.querySelector<HTMLInputElement>("#add-item-button-new")
-			.parentElement?.querySelectorAll<HTMLInputElement>('input[type="number"]')[0];
+			?.parentElement?.querySelectorAll<HTMLInputElement>('input[type="number"]')[0];
 
 		if (newNameInput && newColorInput && newHexInput && newOpacityInput) {
 			newNameInput.value = `Filament ${filamentList.querySelectorAll(".filament-list-item").length + 1}`;
@@ -273,16 +273,16 @@ export function setupDragAndDrop(callback: (list: HTMLUListElement) => void): vo
 	addItemButtonNew.addEventListener("click", () => {
 		const newNameInput = document
 			.querySelector<HTMLInputElement>("#add-item-button-new")
-			.parentElement?.querySelector<HTMLInputElement>('input[type="text"]');
+			?.parentElement?.querySelector<HTMLInputElement>('input[type="text"]');
 		const newColorInput = document
 			.querySelector<HTMLInputElement>("#add-item-button-new")
-			.parentElement?.querySelector<HTMLInputElement>('input[type="color"]');
+			?.parentElement?.querySelector<HTMLInputElement>('input[type="color"]');
 		const newHexInput = document
 			.querySelector<HTMLInputElement>("#add-item-button-new")
-			.parentElement?.querySelector<HTMLInputElement>('input[type="text"][placeholder="Hex Code"]');
+			?.parentElement?.querySelector<HTMLInputElement>('input[type="text"][placeholder="Hex Code"]');
 		const newOpacityInput = document
 			.querySelector<HTMLInputElement>("#add-item-button-new")
-			.parentElement?.querySelectorAll<HTMLInputElement>('input[type="number"]')[0];
+			?.parentElement?.querySelectorAll<HTMLInputElement>('input[type="number"]')[0];
 
 		if (newNameInput && newColorInput && newHexInput && newOpacityInput) {
 			const newFilamentName = newNameInput.value;
@@ -333,7 +333,7 @@ export function setupDragAndDrop(callback: (list: HTMLUListElement) => void): vo
 			newLayerItem.querySelector(".layer-height-slider")?.addEventListener("input", handleLayerHeightChange);
 			newLayerItem.querySelector(".layer-height-number")?.addEventListener("change", handleLayerHeightChange);
 			newLayerItem.querySelector(".delete-layer-button")?.addEventListener("click", (event) => {
-				const layerToRemove = (event.target as HTMLElement).closest(`.${itemClassName}`);
+				const layerToRemove = (event.target as HTMLElement | null)?.closest<HTMLElement>(`.${itemClassName}`);
 				if (layerToRemove) {
 					deleteFilamentLayer(layerToRemove);
 				}
@@ -442,7 +442,7 @@ export function setupDragAndDrop(callback: (list: HTMLUListElement) => void): vo
 					newLayerItem.querySelector(".layer-height-slider")?.addEventListener("input", handleLayerHeightChange);
 					newLayerItem.querySelector(".layer-height-number")?.addEventListener("change", handleLayerHeightChange);
 					newLayerItem.querySelector(".delete-layer-button")?.addEventListener("click", (event) => {
-						const layerToRemove = (event.target as HTMLElement).closest(`.${itemClassName}`);
+						const layerToRemove = (event.target as HTMLElement | null)?.closest<HTMLElement>(`.${itemClassName}`);
 						if (layerToRemove) {
 							deleteFilamentLayer(layerToRemove);
 						}
@@ -485,7 +485,7 @@ export function setupDragAndDrop(callback: (list: HTMLUListElement) => void): vo
 	// Event listener for changes in Filament List
 	filamentList.addEventListener("change", (event) => {
 		const target = event.target as HTMLInputElement;
-		const listItem = target.closest(".filament-list-item");
+		const listItem = target.closest<HTMLElement>(".filament-list-item");
 		if (listItem) {
 			const filamentId = listItem.dataset.id;
 			const nameSpan = listItem.querySelector("span");
@@ -522,7 +522,7 @@ export function setupDragAndDrop(callback: (list: HTMLUListElement) => void): vo
 	const updateSliderSteps = () => {
 		const globalLayerHeight = parseFloat(globalLayerHeightInput.value);
 		if (!isNaN(globalLayerHeight)) {
-			draggableList.querySelectorAll(".layer-height-slider").forEach((slider: HTMLInputElement) => {
+			draggableList.querySelectorAll<HTMLInputElement>(".layer-height-slider").forEach((slider: HTMLInputElement) => {
 				slider.step = globalLayerHeight.toString();
 			});
 		}

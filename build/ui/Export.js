@@ -1,15 +1,15 @@
 import { updateImage } from "./UpdateImage.js";
 import { config } from "../config/Config.js";
 import { generateSTLAndDownload, getHeights } from "../tools/HeightmapExport.js";
-const exportButtonSTL = document.getElementById('export-stl');
-const detailSizeInput = document.getElementById('detail-size');
-const imageResolutionX = document.getElementById('image-resolution-x');
-const imageResolutionY = document.getElementById('image-resolution-y');
-const physicalXInput = document.getElementById('physical-x');
-const physicalYInput = document.getElementById('physical-y');
-const instructions = document.getElementById('instructions');
-const baseLayerHeight = document.getElementById('base-layer-height-input');
-const globalLayerHeightInput = document.getElementById('layer-height-input');
+const exportButtonSTL = document.getElementById("export-stl");
+const detailSizeInput = document.getElementById("detail-size");
+const imageResolutionX = document.getElementById("image-resolution-x");
+const imageResolutionY = document.getElementById("image-resolution-y");
+const physicalXInput = document.getElementById("physical-x");
+const physicalYInput = document.getElementById("physical-y");
+const instructions = document.getElementById("instructions");
+const baseLayerHeight = document.getElementById("base-layer-height-input");
+const globalLayerHeightInput = document.getElementById("layer-height-input");
 function getUniqueFilaments(filaments) {
     const uniqueFilaments = [];
     const seenFilaments = new Set();
@@ -23,10 +23,10 @@ function getUniqueFilaments(filaments) {
     return uniqueFilaments;
 }
 export function setupExport() {
-    exportButtonSTL.addEventListener('click', (e) => {
+    exportButtonSTL.addEventListener("click", (e) => {
         updateImage();
         if (config.paint.image.width == 0) {
-            console.log('No image');
+            console.log("No image");
             return;
         }
         let heights = getHeights(config.paint.computedResult, config.paint.image.width, config.paint.image.height);
@@ -37,13 +37,13 @@ export function setupExport() {
         let pixelScaleFactor = pixelX / (pixelX - 1);
         let sizeScaleFactor = parseFloat(detailSizeInput.value);
         let scaleFactor = pixelScaleFactor * sizeScaleFactor;
-        generateSTLAndDownload(heights, 'filamentPainting.stl', scaleFactor);
+        generateSTLAndDownload(heights, "filamentPainting.stl", scaleFactor);
         let filamentsUsed = getUniqueFilaments(config.paint.filaments);
-        let filamentsString = '';
+        let filamentsString = "";
         for (let filament of filamentsUsed) {
             filamentsString += `${filament.name} - Opacity ${filament.opacity} mm\n`;
         }
-        let swapString = '';
+        let swapString = "";
         for (let i = 0; i < config.paint.filaments.length; i++) {
             let filament = config.paint.filaments[i];
             if (i == 0) {
