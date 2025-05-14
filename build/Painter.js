@@ -6,6 +6,7 @@ import { setupPreviewWindow } from "./ui/PreviewWindow.js";
 import { initGL } from "./gl/Init.js";
 import { autoUpdateImage, updateImage, updateOtherField } from "./ui/UpdateImage.js";
 import { setupExport } from "./ui/Export.js";
+import { setupExportProject } from "./ui/ExportProject.js";
 initGL();
 const imageResolutionX = document.getElementById("image-resolution-x");
 const imageResolutionY = document.getElementById("image-resolution-y");
@@ -49,6 +50,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 setupExport();
+setupExportProject();
 document.getElementById("buy-commercial")?.addEventListener("click", () => {
     window.open("https://ko-fi.com/s/1d20470ee2", "_blank");
 });
