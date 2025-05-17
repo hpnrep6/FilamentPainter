@@ -1,80 +1,82 @@
-import {updateImage} from "./UpdateImage.js";
-import {config} from "../config/Config.js";
-import {generateSTLAndDownload, getHeights} from "../tools/HeightmapExport.js";
-import {Filament} from "../Filament.js";
+import { updateImage } from "./UpdateImage.js";
+import { config } from "../config/Config.js";
+import { generateSTLAndDownload, getHeights } from "../tools/HeightmapExport.js";
+import { Filament } from "../Filament.js";
 
-const exportButtonSTL = document.getElementById('export-stl') as HTMLButtonElement;
+const exportButtonSTL = document.getElementById("export-stl") as HTMLButtonElement;
 
-const detailSizeInput = document.getElementById('detail-size') as HTMLInputElement;
+const detailSizeInput = document.getElementById("detail-size") as HTMLInputElement;
 
-const imageResolutionX = document.getElementById('image-resolution-x') as HTMLInputElement;
-const imageResolutionY = document.getElementById('image-resolution-y') as HTMLInputElement;
+const imageResolutionX = document.getElementById("image-resolution-x") as HTMLInputElement;
+const imageResolutionY = document.getElementById("image-resolution-y") as HTMLInputElement;
 
-const physicalXInput = document.getElementById('physical-x') as HTMLInputElement;
-const physicalYInput = document.getElementById('physical-y') as HTMLInputElement;
+const physicalXInput = document.getElementById("physical-x") as HTMLInputElement;
+const physicalYInput = document.getElementById("physical-y") as HTMLInputElement;
 
-const instructions = document.getElementById('instructions') as HTMLInputElement;
+const instructions = document.getElementById("instructions") as HTMLInputElement;
 
-const baseLayerHeight = document.getElementById('base-layer-height-input') as HTMLInputElement;
-const globalLayerHeightInput = document.getElementById('layer-height-input') as HTMLInputElement; // Get global input
+const baseLayerHeight = document.getElementById("base-layer-height-input") as HTMLInputElement;
+const globalLayerHeightInput = document.getElementById("layer-height-input") as HTMLInputElement; // Get global input
 
 function getUniqueFilaments(filaments: Filament[]): Filament[] {
-    const uniqueFilaments: Filament[] = [];
-    const seenFilaments = new Set<string>();
+	const uniqueFilaments: Filament[] = [];
+	const seenFilaments = new Set<string>();
 
-    for (const filament of filaments) {
-        const key = `${filament.colour[0]}-${filament.colour[1]}-${filament.colour[2]}-${filament.name}-${filament.opacity}`;
-        if (!seenFilaments.has(key)) {
-            uniqueFilaments.push(filament);
-            seenFilaments.add(key);
-        }
-    }
+	for (const filament of filaments) {
+		const key = `${filament.colour[0]}-${filament.colour[1]}-${filament.colour[2]}-${filament.name}-${filament.opacity}`;
+		if (!seenFilaments.has(key)) {
+			uniqueFilaments.push(filament);
+			seenFilaments.add(key);
+		}
+	}
 
-    return uniqueFilaments;
+	return uniqueFilaments;
 }
 
 export function setupExport() {
-    exportButtonSTL.addEventListener('click', (e) => {
-        updateImage();
+	exportButtonSTL.addEventListener("click", (e) => {
+		updateImage();
 
-        if (config.paint.image.width == 0) {
-            console.log('No image')
-            return;
-        }
+		if (config.paint.image.width == 0) {
+			console.log("No image");
+			return;
+		}
 
-        let heights = getHeights(config.paint.computedResult, config.paint.image.width, config.paint.image.height);
-        let pixelX = parseFloat(imageResolutionX.value);
-        if (pixelX < 2) {
-            return;
-        }
+		let heights = getHeights(config.paint.computedResult, config.paint.image.width, config.paint.image.height);
+		let pixelX = parseFloat(imageResolutionX.value);
+		if (pixelX < 2) {
+			return;
+		}
 
-        let pixelScaleFactor = pixelX / (pixelX - 1);
-        let sizeScaleFactor = parseFloat(detailSizeInput.value);
+		let pixelScaleFactor = pixelX / (pixelX - 1);
+		let sizeScaleFactor = parseFloat(detailSizeInput.value);
 
-        let scaleFactor = pixelScaleFactor * sizeScaleFactor;
+		let scaleFactor = pixelScaleFactor * sizeScaleFactor;
 
-        generateSTLAndDownload(heights, 'filamentPainting.stl', scaleFactor);
+		generateSTLAndDownload(heights, "filamentPainting.stl", scaleFactor);
 
-        let filamentsUsed = getUniqueFilaments(config.paint.filaments);
+		let filamentsUsed = getUniqueFilaments(config.paint.filaments);
 
-        let filamentsString = ''
+		let filamentsString = "";
 
-        for (let filament of filamentsUsed) {
-            filamentsString += `${filament.name} - Opacity ${filament.opacity} mm\n`;
-        }
+		for (let filament of filamentsUsed) {
+			filamentsString += `${filament.name} - Opacity ${filament.opacity} mm\n`;
+		}
 
-        let swapString = ''
+		let swapString = "";
 
-        for (let i = 0; i < config.paint.filaments.length; i++) {
-            let filament = config.paint.filaments[i];
-            if (i == 0) {
-                swapString += `- Begin with ${filament.name} as the first layer\n`;
-            } else {
-                swapString += `- Swap to ${filament.name} at a layer height of ${Math.round((config.paint.filaments[i - 1].endHeight + parseFloat(globalLayerHeightInput.value)) * 100) / 100} mm\n`;
-            }
-        }
+		for (let i = 0; i < config.paint.filaments.length; i++) {
+			let filament = config.paint.filaments[i];
+			if (i == 0) {
+				swapString += `- Begin with ${filament.name} as the first layer\n`;
+			} else {
+				swapString += `- Swap to ${filament.name} at a layer height of ${
+					Math.round((config.paint.filaments[i - 1].endHeight + parseFloat(globalLayerHeightInput.value)) * 100) / 100
+				} mm\n`;
+			}
+		}
 
-        let instructionString = `Generated by painter.vec4.ca.
+		let instructionString = `Generated by painter.vec4.ca.
 
 Filament Library:
 ${filamentsString}
@@ -83,23 +85,23 @@ Print Instructions:
 Set base layer height to ${baseLayerHeight.value} mm and layer height to ${globalLayerHeightInput.value} mm.
 ${swapString}`;
 
-        instructions.innerHTML = instructionString;
+		instructions.innerHTML = instructionString;
 
-        downloadTextFile("Filament Painter Instructions.txt", instructionString);
-    })
+		downloadTextFile("Filament Painter Instructions.txt", instructionString);
+	});
 }
 
-function downloadTextFile(filename: string, content: string): void {
-    const blob = new Blob([content], { type: "text/plain" });
-    const url = URL.createObjectURL(blob);
+export function downloadTextFile(filename: string, content: string): void {
+	const blob = new Blob([content], { type: "text/plain" });
+	const url = URL.createObjectURL(blob);
 
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = filename;
-    document.body.appendChild(a);
-    a.click();
+	const a = document.createElement("a");
+	a.href = url;
+	a.download = filename;
+	document.body.appendChild(a);
+	a.click();
 
-    // Cleanup
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+	// Cleanup
+	document.body.removeChild(a);
+	URL.revokeObjectURL(url);
 }
