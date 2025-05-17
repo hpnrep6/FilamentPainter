@@ -91,7 +91,7 @@ ${swapString}`;
 	});
 }
 
-function downloadTextFile(filename: string, content: string): void {
+export function downloadTextFile(filename: string, content: string): void {
 	const blob = new Blob([content], { type: "text/plain" });
 	const url = URL.createObjectURL(blob);
 
