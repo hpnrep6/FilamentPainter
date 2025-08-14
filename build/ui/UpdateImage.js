@@ -1,26 +1,26 @@
-import { config } from "../config/Config.js";
-import { HeightFunction } from "../config/Paint.js";
-import { getComputeFunction } from "../gl/compute/Heights.js";
-import { GLImage } from "../gl/Image.js";
-import { debugDisplayDataOutput, debugDisplayHTMLImage } from "../debug/DisplayImage.js";
-import { getFilamentListElements } from "./Filaments.js";
-import { Filament } from "../Filament.js";
+import { config } from '../config/Config.js';
+import { HeightFunction } from '../config/Paint.js';
+import { getComputeFunction } from '../gl/compute/Heights.js';
+import { GLImage } from '../gl/Image.js';
+import { debugDisplayDataOutput, debugDisplayHTMLImage } from '../debug/DisplayImage.js';
+import { getFilamentListElements } from './Filaments.js';
+import { Filament } from '../Filament.js';
 function getTopographyFunction() {
     const heightOptionSelect = document.getElementById('height-option-selection');
     const selectedValue = heightOptionSelect.value;
     let selectedHeightFunction;
     switch (selectedValue) {
-        case "nearest":
+        case 'nearest':
             selectedHeightFunction = HeightFunction.NEAREST;
             break;
-        case "greyscale-max":
+        case 'greyscale-max':
             selectedHeightFunction = HeightFunction.GREYSCALE_MAX;
             break;
-        case "greyscale-luminance":
+        case 'greyscale-luminance':
             selectedHeightFunction = HeightFunction.GREYSCALE_LUMINANCE;
             break;
         default:
-            throw new Error("Invalid option");
+            throw new Error('Invalid option');
     }
     return selectedHeightFunction;
 }
@@ -49,7 +49,7 @@ export function updateOtherField(changedInput) {
     const pixelHeight = Math.round(parseFloat(physicalYInput.value) / detailSize);
     imageResolutionX.value = Math.round(pixelWidth).toString();
     imageResolutionY.value = Math.round(pixelHeight).toString();
-    fileSizeEstimate.innerHTML = `Estimated file size: ${pixelWidth * pixelHeight * 200 / 1000000} MB`;
+    fileSizeEstimate.innerHTML = `Estimated file size: ${(pixelWidth * pixelHeight * 200) / 1000000} MB`;
     autoUpdateImage();
 }
 physicalXInput.addEventListener('input', () => updateOtherField(physicalXInput));
@@ -67,7 +67,7 @@ function resizePaintImage(afterResize) {
     }
     const pixelWidth = Math.round(parseFloat(physicalXInput.value) / detailSize);
     const pixelHeight = Math.round(parseFloat(physicalYInput.value) / detailSize);
-    fileSizeEstimate.innerHTML = `Estimated file size: ${pixelWidth * pixelHeight * 200 / 1000000} MB`;
+    fileSizeEstimate.innerHTML = `Estimated file size: ${(pixelWidth * pixelHeight * 200) / 1000000} MB`;
     const canvas = document.getElementById('canvas-source');
     canvas.width = pixelWidth;
     canvas.height = pixelHeight;

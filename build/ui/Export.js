@@ -1,6 +1,6 @@
-import { updateImage } from "./UpdateImage.js";
-import { config } from "../config/Config.js";
-import { generateSTLAndDownload, getHeights } from "../tools/HeightmapExport.js";
+import { updateImage } from './UpdateImage.js';
+import { config } from '../config/Config.js';
+import { generateSTLAndDownload, getHeights } from '../tools/HeightmapExport.js';
 const exportButtonSTL = document.getElementById('export-stl');
 const detailSizeInput = document.getElementById('detail-size');
 const imageResolutionX = document.getElementById('image-resolution-x');
@@ -62,13 +62,13 @@ Print Instructions:
 Set base layer height to ${baseLayerHeight.value} mm and layer height to ${globalLayerHeightInput.value} mm.
 ${swapString}`;
         instructions.innerHTML = instructionString;
-        downloadTextFile("Filament Painter Instructions.txt", instructionString);
+        downloadTextFile('Filament Painter Instructions.txt', instructionString);
     });
 }
-function downloadTextFile(filename, content) {
-    const blob = new Blob([content], { type: "text/plain" });
+export function downloadTextFile(filename, content) {
+    const blob = new Blob([content], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
+    const a = document.createElement('a');
     a.href = url;
     a.download = filename;
     document.body.appendChild(a);

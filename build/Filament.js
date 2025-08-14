@@ -1,4 +1,4 @@
-import { vec3 } from "./Types.js";
+import { vec3 } from './Types.js';
 export class Filament {
     constructor(colour, endHeight, name, opacity, colorFormat = 'normalised') {
         this.colour = vec3(0, 0, 0);
@@ -24,7 +24,7 @@ export class Filament {
             this.colour = this.hexToRgbNormalized(colour);
         }
         else {
-            throw new Error("Invalid color format provided. Use RGB array or hex string.");
+            throw new Error('Invalid color format provided. Use RGB array or hex string.');
         }
     }
     hexToRgbNormalized(hex) {

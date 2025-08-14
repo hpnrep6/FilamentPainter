@@ -1,11 +1,11 @@
-import { config } from "../config/Config.js";
+import { config } from '../config/Config.js';
 export class GLImage {
     constructor(imageElement) {
         this.imageElement = imageElement;
         this._width = imageElement.width;
         this._height = imageElement.height;
         if (!config.compute.gl || !this.imageElement) {
-            throw new Error("No WebGL instance to create texture");
+            throw new Error('No WebGL instance to create texture');
         }
         this.texture = config.compute.gl.createTexture();
         config.compute.gl.bindTexture(config.compute.gl.TEXTURE_2D, this.texture);

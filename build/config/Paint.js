@@ -4,7 +4,6 @@ export var HeightFunction;
     HeightFunction[HeightFunction["GREYSCALE_MAX"] = 1] = "GREYSCALE_MAX";
     HeightFunction[HeightFunction["GREYSCALE_LUMINANCE"] = 2] = "GREYSCALE_LUMINANCE";
 })(HeightFunction || (HeightFunction = {}));
-;
 export class PaintConfig {
     constructor() {
         this._image = new Image();

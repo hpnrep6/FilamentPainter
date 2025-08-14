@@ -1,6 +1,6 @@
-import { config } from "../config/Config.js";
-import { HeightFunction } from "../config/Paint.js";
-import { autoUpdateImage } from "./UpdateImage.js";
+import { config } from '../config/Config.js';
+import { HeightFunction } from '../config/Paint.js';
+import { autoUpdateImage } from './UpdateImage.js';
 export function setupHeightSelector() {
     const heightOptionSelection = document.getElementById('height-option-selection');
     if (heightOptionSelection) {

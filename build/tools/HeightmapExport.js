@@ -9,7 +9,7 @@ export function getHeights(outputData, width, height) {
     }
     return result;
 }
-export function generateSTLAndDownload(heightmap, filename = "filament-painting.stl", scaleFactor = 1) {
+export function generateSTLAndDownload(heightmap, filename = 'filament-painting.stl', scaleFactor = 1) {
     const numRows = heightmap.length;
     const numCols = heightmap[0].length;
     const addTriangle = (v1, v2, v3, normal, data, offset) => {
@@ -123,7 +123,7 @@ export function generateSTLAndDownload(heightmap, filename = "filament-painting.
     link.click();
     document.body.removeChild(link);
     URL.revokeObjectURL(link.href);
-    console.log("Binary STL generation and download initiated.");
+    console.log('Binary STL generation and download initiated.');
 }
 export function generateLargeHeightmap(rows, cols) {
     const heightmap = [];
