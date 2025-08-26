@@ -282,6 +282,37 @@ export function setupDragAndDrop(callback: (list: HTMLUListElement) => void): vo
         updateSliderSteps();
     }
 
+    function createFilamentLayerItem(id: string, selectedFilamentName: string, color, opacity, initialLayerHeight: number) {
+        const newLayerItem = document.createElement('li');
+        newLayerItem.classList.add(itemClassName);
+        newLayerItem.dataset.id = id;
+        newLayerItem.innerHTML = `
+                    <div class="${dragHandleClassName}">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M3 9H21V11H3V9ZM3 15H21V17H3V15Z" fill="currentColor"/>
+                        </svg>
+                    </div>
+                    <div class="row">
+                        <span>Name: <span class="highlight-as-input">${selectedFilamentName}</span></span>
+                    </div>
+                    <div class="row">
+                        Colour: <div class="h-gap-small"></div> <input type="color" value="${color}" disabled/>
+                        <div class="h-gap"></div>
+                        Opacity: <div class="h-gap-small"></div> <span class="filament-layer-opacity highlight-as-input">${opacity}</span>
+                    </div>
+                    <div class="row">
+                        Layer Height:
+                        <div class="h-gap-small"></div>
+                        <input type="range" min="0.00" max="2" step="${globalLayerHeightInput.value}" value="${initialLayerHeight}" class="layer-height-slider">
+                        <div class="h-gap"></div>
+                        <input type="number" min="0.00" max="2" step="0.01" value="${initialLayerHeight}" class="layer-height-number">
+                        <div class="h-gap-small"></div> mm
+                    </div>
+                    <button class="delete-layer-button">Delete</button>
+                `;
+        return newLayerItem;
+    }
+
     addItemButtonNew.addEventListener('click', () => {
         const newNameInput = document.querySelector<HTMLInputElement>('#add-item-button-new').parentElement?.querySelector<HTMLInputElement>('input[type="text"]');
         const newColorInput = document.querySelector<HTMLInputElement>('#add-item-button-new').parentElement?.querySelector<HTMLInputElement>('input[type="color"]');
@@ -303,33 +334,7 @@ export function setupDragAndDrop(callback: (list: HTMLUListElement) => void): vo
             // updateOpacityFromColorInput(newColorInput, newOpacityInput);
 
             // Add to Filament Layers
-            const newLayerItem = document.createElement('li');
-            newLayerItem.classList.add(itemClassName);
-            newLayerItem.dataset.id = filamentId;
-            newLayerItem.innerHTML = `
-                <div class="${dragHandleClassName}">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M3 9H21V11H3V9ZM3 15H21V17H3V15Z" fill="currentColor"/>
-                    </svg>
-                </div>
-                <div class="row">
-                    <span>Name: <input type="text" value="${newFilamentName}" readonly/></span>
-                </div>
-                <div class="row">
-                    Colour: <div class="h-gap-small"></div> <input type="color" value="${newFilamentColor}" disabled/>
-                    <div class="h-gap"></div>
-                    Opacity: <div class="h-gap-small"></div> <input type="number" step="0.01" min="0" max="5" value="${newOpacityInput.value}" class="filament-layer-opacity" readonly/>
-                </div>
-                <div class="row">
-                    Layer Height:
-                    <div class="h-gap-small"></div>
-                    <input type="range" min="0.00" max="2" step="${globalLayerHeightInput.value}" value="${initialLayerHeight}" class="layer-height-slider">
-                    <div class="h-gap"></div>
-                    <input type="number" min="0.00" max="2" step="0.01" value="${initialLayerHeight}" class="layer-height-number">
-                    <div class="h-gap-small"></div> mm
-                </div>
-                <button class="delete-layer-button">Delete</button>
-            `;
+            const newLayerItem = createFilamentLayerItem(filamentId, newFilamentName, newFilamentColor, newOpacityInput.value, initialLayerHeight);
             addFilamentLayer(newLayerItem);
 
             // Add to Filament List
@@ -397,33 +402,7 @@ export function setupDragAndDrop(callback: (list: HTMLUListElement) => void): vo
 
 
                     // Add to Filament Layers
-                    const newLayerItem = document.createElement('li');
-                    newLayerItem.classList.add(itemClassName);
-                    newLayerItem.dataset.id = selectedFilamentId;
-                    newLayerItem.innerHTML = `
-                    <div class="${dragHandleClassName}">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M3 9H21V11H3V9ZM3 15H21V17H3V15Z" fill="currentColor"/>
-                        </svg>
-                    </div>
-                    <div class="row">
-                        <span>Name: <input type="text" value="${selectedFilamentName}" readonly/></span>
-                    </div>
-                    <div class="row">
-                        Colour: <div class="h-gap-small"></div> <input type="color" value="${existingFilamentColor}" disabled/>
-                        <div class="h-gap"></div>
-                        Opacity: <div class="h-gap-small"></div> <input type="number" step="0.01" min="0" max="5" value="${existingFilamentOpacity}" class="filament-layer-opacity" readonly/>
-                    </div>
-                    <div class="row">
-                        Layer Height:
-                        <div class="h-gap-small"></div>
-                        <input type="range" min="0.00" max="2" step="${globalLayerHeightInput.value}" value="${initialLayerHeight}" class="layer-height-slider">
-                        <div class="h-gap"></div>
-                        <input type="number" min="0.00" max="2" step="0.01" value="${initialLayerHeight}" class="layer-height-number">
-                        <div class="h-gap-small"></div> mm
-                    </div>
-                    <button class="delete-layer-button">Delete</button>
-                `;
+                    const newLayerItem = createFilamentLayerItem(selectedFilamentId, selectedFilamentName, existingFilamentColor, existingFilamentOpacity, initialLayerHeight);
                     addFilamentLayer(newLayerItem);
 
                     callback(draggableList);
