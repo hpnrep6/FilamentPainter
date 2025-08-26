@@ -262,7 +262,7 @@ export function setupDragAndDrop(callback) {
                         <div class="h-gap-small"></div>
                         <input type="range" min="0.00" max="2" step="${globalLayerHeightInput.value}" value="${initialLayerHeight}" class="layer-height-slider">
                         <div class="h-gap"></div>
-                        <input type="number" min="0.00" max="2" step="0.01" value="${initialLayerHeight}" class="layer-height-number">
+                        <input type="number" min="0.00" max="2" step="${globalLayerHeightInput.value}" value="${initialLayerHeight}" class="layer-height-number">
                         <div class="h-gap-small"></div> mm
                     </div>
                     <button class="delete-layer-button">Delete</button>
@@ -401,6 +401,9 @@ export function setupDragAndDrop(callback) {
         const globalLayerHeight = parseFloat(globalLayerHeightInput.value);
         if (!isNaN(globalLayerHeight)) {
             draggableList.querySelectorAll('.layer-height-slider').forEach((slider) => {
+                slider.step = globalLayerHeight.toString();
+            });
+            draggableList.querySelectorAll('.layer-height-number').forEach((slider) => {
                 slider.step = globalLayerHeight.toString();
             });
         }
