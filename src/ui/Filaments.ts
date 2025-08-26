@@ -264,6 +264,24 @@ export function setupDragAndDrop(callback: (list: HTMLUListElement) => void): vo
         }
     }
 
+    function addFilamentLayer(newLayerItem: HTMLLIElement) {
+        draggableList.prepend(newLayerItem);
+        attachDragHandlers(newLayerItem.querySelector(`.${dragHandleClassName}`) as HTMLElement);
+
+        // Attach event listeners to the new layer height controls
+        newLayerItem.querySelector('.layer-height-slider')?.addEventListener('input', handleLayerHeightChange);
+        newLayerItem.querySelector('.layer-height-number')?.addEventListener('change', handleLayerHeightChange);
+        newLayerItem.querySelector('.delete-layer-button')?.addEventListener('click', (event) => {
+            const layerToRemove = (event.target as HTMLElement).closest(`.${itemClassName}`);
+            if (layerToRemove) {
+                deleteFilamentLayer(layerToRemove);
+            }
+        });
+
+        // Update slider steps after adding the new item
+        updateSliderSteps();
+    }
+
     addItemButtonNew.addEventListener('click', () => {
         const newNameInput = document.querySelector<HTMLInputElement>('#add-item-button-new').parentElement?.querySelector<HTMLInputElement>('input[type="text"]');
         const newColorInput = document.querySelector<HTMLInputElement>('#add-item-button-new').parentElement?.querySelector<HTMLInputElement>('input[type="color"]');
@@ -312,21 +330,7 @@ export function setupDragAndDrop(callback: (list: HTMLUListElement) => void): vo
                 </div>
                 <button class="delete-layer-button">Delete</button>
             `;
-            draggableList.appendChild(newLayerItem);
-            attachDragHandlers(newLayerItem.querySelector(`.${dragHandleClassName}`) as HTMLElement);
-
-            // Attach event listeners to the new layer height controls
-            newLayerItem.querySelector('.layer-height-slider')?.addEventListener('input', handleLayerHeightChange);
-            newLayerItem.querySelector('.layer-height-number')?.addEventListener('change', handleLayerHeightChange);
-            newLayerItem.querySelector('.delete-layer-button')?.addEventListener('click', (event) => {
-                const layerToRemove = (event.target as HTMLElement).closest(`.${itemClassName}`);
-                if (layerToRemove) {
-                    deleteFilamentLayer(layerToRemove);
-                }
-            });
-
-            // Update slider steps after adding the new item
-            updateSliderSteps();
+            addFilamentLayer(newLayerItem);
 
             // Add to Filament List
             const newFilamentListItem = document.createElement('li');
@@ -420,21 +424,7 @@ export function setupDragAndDrop(callback: (list: HTMLUListElement) => void): vo
                     </div>
                     <button class="delete-layer-button">Delete</button>
                 `;
-                    draggableList.appendChild(newLayerItem);
-                    attachDragHandlers(newLayerItem.querySelector(`.${dragHandleClassName}`) as HTMLElement);
-
-
-                    // Attach event listeners to the new layer height controls
-                    newLayerItem.querySelector('.layer-height-slider')?.addEventListener('input', handleLayerHeightChange);
-                    newLayerItem.querySelector('.layer-height-number')?.addEventListener('change', handleLayerHeightChange);
-                    newLayerItem.querySelector('.delete-layer-button')?.addEventListener('click', (event) => {
-                        const layerToRemove = (event.target as HTMLElement).closest(`.${itemClassName}`);
-                        if (layerToRemove) {
-                            deleteFilamentLayer(layerToRemove);
-                        }
-                    });
-
-                    updateSliderSteps();
+                    addFilamentLayer(newLayerItem);
 
                     callback(draggableList);
                 }

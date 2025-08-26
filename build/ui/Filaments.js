@@ -226,6 +226,19 @@ export function setupDragAndDrop(callback) {
             });
         }
     }
+    function addFilamentLayer(newLayerItem) {
+        draggableList.prepend(newLayerItem);
+        attachDragHandlers(newLayerItem.querySelector(`.${dragHandleClassName}`));
+        newLayerItem.querySelector('.layer-height-slider')?.addEventListener('input', handleLayerHeightChange);
+        newLayerItem.querySelector('.layer-height-number')?.addEventListener('change', handleLayerHeightChange);
+        newLayerItem.querySelector('.delete-layer-button')?.addEventListener('click', (event) => {
+            const layerToRemove = event.target.closest(`.${itemClassName}`);
+            if (layerToRemove) {
+                deleteFilamentLayer(layerToRemove);
+            }
+        });
+        updateSliderSteps();
+    }
     addItemButtonNew.addEventListener('click', () => {
         const newNameInput = document.querySelector('#add-item-button-new').parentElement?.querySelector('input[type="text"]');
         const newColorInput = document.querySelector('#add-item-button-new').parentElement?.querySelector('input[type="color"]');
@@ -267,17 +280,7 @@ export function setupDragAndDrop(callback) {
                 </div>
                 <button class="delete-layer-button">Delete</button>
             `;
-            draggableList.appendChild(newLayerItem);
-            attachDragHandlers(newLayerItem.querySelector(`.${dragHandleClassName}`));
-            newLayerItem.querySelector('.layer-height-slider')?.addEventListener('input', handleLayerHeightChange);
-            newLayerItem.querySelector('.layer-height-number')?.addEventListener('change', handleLayerHeightChange);
-            newLayerItem.querySelector('.delete-layer-button')?.addEventListener('click', (event) => {
-                const layerToRemove = event.target.closest(`.${itemClassName}`);
-                if (layerToRemove) {
-                    deleteFilamentLayer(layerToRemove);
-                }
-            });
-            updateSliderSteps();
+            addFilamentLayer(newLayerItem);
             const newFilamentListItem = document.createElement('li');
             newFilamentListItem.classList.add('filament-list-item');
             newFilamentListItem.dataset.id = filamentId;
@@ -355,17 +358,7 @@ export function setupDragAndDrop(callback) {
                     </div>
                     <button class="delete-layer-button">Delete</button>
                 `;
-                    draggableList.appendChild(newLayerItem);
-                    attachDragHandlers(newLayerItem.querySelector(`.${dragHandleClassName}`));
-                    newLayerItem.querySelector('.layer-height-slider')?.addEventListener('input', handleLayerHeightChange);
-                    newLayerItem.querySelector('.layer-height-number')?.addEventListener('change', handleLayerHeightChange);
-                    newLayerItem.querySelector('.delete-layer-button')?.addEventListener('click', (event) => {
-                        const layerToRemove = event.target.closest(`.${itemClassName}`);
-                        if (layerToRemove) {
-                            deleteFilamentLayer(layerToRemove);
-                        }
-                    });
-                    updateSliderSteps();
+                    addFilamentLayer(newLayerItem);
                     callback(draggableList);
                 }
             }
