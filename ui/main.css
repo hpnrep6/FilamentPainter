@@ -100,11 +100,12 @@ header {
 }
 
 .preview-window {
-    -ms-overflow-style: none;  /* Internet Explorer 10+ */
-    scrollbar-width: none;  /* Firefox */
+    -ms-overflow-style: none; /* Internet Explorer 10+ */
+    scrollbar-width: none; /* Firefox */
 }
+
 .preview-window::-webkit-scrollbar {
-    display: none;  /* Safari and Chrome */
+    display: none; /* Safari and Chrome */
 }
 
 .preview-canvas {
@@ -355,19 +356,19 @@ select {
 }
 
 button:disabled,
-button[disabled]{
+button[disabled] {
     background-color: #333;
     color: #ccc;
 }
 
 button:disabled,
-button[disabled]:hover{
+button[disabled]:hover {
     background-color: #333;
     color: #ccc;
 }
 
 button:disabled,
-button[disabled]:active{
+button[disabled]:active {
     background-color: #333;
     color: #ccc;
 }
@@ -379,4 +380,11 @@ textarea {
 
 #buy-commercial {
     background-color: #396042;
+}
+
+span.highlight-as-input {
+    background-color: #444444;
+    padding: 0.3125rem;
+    border: 0.0625rem solid #555555;
+    border-radius: 0.125rem;
 }
