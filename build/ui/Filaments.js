@@ -403,8 +403,8 @@ export function setupDragAndDrop(callback) {
             draggableList.querySelectorAll('.layer-height-slider').forEach((slider) => {
                 slider.step = globalLayerHeight.toString();
             });
-            draggableList.querySelectorAll('.layer-height-number').forEach((slider) => {
-                slider.step = globalLayerHeight.toString();
+            draggableList.querySelectorAll('.layer-height-number').forEach((number) => {
+                number.step = globalLayerHeight.toString();
             });
         }
     };
